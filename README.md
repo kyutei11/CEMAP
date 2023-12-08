@@ -2,7 +2,7 @@
 
 ソーラーセル特性を含めた電動飛行機の性能計算プログラム
 
-    Copyright (C) 2004− Koichi Takasaki
+    Copyright (C) 2001− Koichi Takasaki
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
