@@ -1,0 +1,10 @@
+{
+    "common": "common.json",
+    "solarplane": "solarplane.json",
+    "battery": "battery.json",
+    "solarcell": "solarcell.json",
+    "motor": "motor.json",
+    "controller": "controller.json",
+    "gear": "gear.json",
+    "propeller": "propeller.json"
+}

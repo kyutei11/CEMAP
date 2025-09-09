@@ -1,0 +1,72 @@
+
+module SolarCellModule
+using NLsolve
+export SolarCell, I_solarcell, resid_mpp!
+
+struct SolarCell
+m_cell::Float64
+Voc::Float64
+Isc::Float64
+rs::Float64
+rp::Float64
+alpha::Float64
+cascade::Int
+parallel::Int
+end
+
+function SolarCell(data::Dict)
+  required_fields = ["m_cell","Voc", "Isc", "rs", "rp", "alpha", "cascade", "parallel"]
+  for field in required_fields
+    if !haskey(data, field)
+      error("Missing required field '$field' in SolarCell data")
+    end
+  end
+
+  SolarCell(
+            Float64(data["m_cell"]),
+            Float64(data["Voc"]),
+            Float64(data["Isc"]),
+            Float64(data["rs"]),
+            Float64(data["rp"]),
+            Float64(data["alpha"]),
+            Int(data["cascade"]),
+            Int(data["parallel"])
+            )
+end
+
+function solarcellprop(i, v, solarcell::SolarCell)
+  rs = solarcell.rs
+  rp = solarcell.rp
+  alpha = solarcell.alpha
+
+  i0 = (1 - 1 / rp) * (1 / (exp(alpha) - exp(alpha * rs)))
+  iL = 1 + i0 * (exp(alpha * rs) - 1)
+
+  return iL - v / rp - i0 * (exp(alpha * (v + rs * i)) - 1) - i
+end
+
+function I_solarcell(Volt, solarcell::SolarCell)
+  v = (Volt + 0.6) / (solarcell.cascade * solarcell.Voc)
+  result = nlsolve(i -> solarcellprop(i[1], v, solarcell), [1.0])
+  i = result.zero[1]
+  I = i * solarcell.Isc * solarcell.parallel
+  return I < 0 ? 0.0 : I
+end
+
+function resid_mpp!(out, x, solarcell::SolarCell)
+  i = x[1]
+  v = x[2]
+  L = x[3]
+  rs = solarcell.rs
+  rp = solarcell.rp
+  alpha = solarcell.alpha
+
+  i0 = (1 - 1 / rp) * (1 / (exp(alpha) - exp(alpha * rs)))
+  iL = 1 + i0 * (exp(alpha * rs) - 1)
+
+  out[1] = v + L * (-i0 * rs * alpha * exp(alpha * (v + rs * i)) - 1)
+  out[2] = i + L * (-1 / rp - i0 * alpha * exp(alpha * (v + rs * i)))
+  out[3] = iL - v / rp - i0 * (exp(alpha * (v + rs * i)) - 1) - i
+end
+
+end # module

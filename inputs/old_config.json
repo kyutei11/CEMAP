@@ -1,0 +1,57 @@
+{
+  "Common": {
+    "rho": 1.2,
+    "g": 9.8
+  },
+  "SolarPlane": {
+    "m_structure": 0.31,
+    "b": 2.4,
+    "S": 0.4,
+    "A_fuse": 0.0025,
+    "Cd0_wing": 0.02,
+    "Cdp_fuse": 0.1,
+    "CL_min": 0.3,
+    "CL_max": 1.2
+  },
+  "Battery": {
+    "CellNo": 9,
+    "R_cell": 0.05, 
+    "m_cell": 0.013,
+    "V_cell": 1.25,
+    "Capa": 0.80
+  },
+  "SolarCell": {
+    "Voc": 7.05,
+    "Isc": 0.042,
+    "rs": 0.040992,
+    "rp": 4.7906,
+    "alpha": 17.809,
+    "cascade": 2,
+    "parallel": 11
+  },
+  "Motor": {
+    "m_motor": 0.07,
+    "R_motor": 6.0,
+    "Kv": 505,
+    "Imin": 0.1
+  },
+  "Controller": {
+    "R_wire": 0.005,
+    "R_connector": 0.02,
+    "eta_controller": 0.95
+  },
+  "Gear": {
+    "m_gear": 0.0,
+    "eta_gear": 1.0,
+    "t_spar": 1.0,
+    "t_pinion": 1.0
+  },
+  "Propeller": {
+    "m_prop": 0.03,
+    "Dprop": 0.2286,
+    "Pprop": 0.127,
+    "etamax_Prop": 0.7,
+    "J0": 0.75
+  }
+}
+

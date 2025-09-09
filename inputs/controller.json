@@ -1,0 +1,5 @@
+{
+    "R_wire": 0.005,
+    "R_connector": 0.02,
+    "eta_controller": 0.95
+}
